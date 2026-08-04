@@ -34,7 +34,7 @@ export function HeroSection() {
           <div className="absolute inset-0 animate-heroZoom">
             <div
               className="absolute inset-0 bg-cover bg-center brightness-50"
-              style={{ backgroundImage: "url('/images/heroSection/hero-bg.png')" }}
+              style={{ backgroundImage: "url('/images/heroSection/hero-bg.webp')" }}
             />
           </div>
         </div>

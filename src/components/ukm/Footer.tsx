@@ -19,14 +19,14 @@ export function Footer() {
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <div className="flex items-center gap-4 mb-4">
               <Image
-                src="/images/logo/uin-footer.png"
+                src="/images/logo/uin-footer.webp"
                 alt="UIN Gusdur Logo"
                 width={70}
                 height={70}
                 className="h-16 w-auto"
               />
               <Image
-                src="/images/logo/ukm-footer.png"
+                src="/images/logo/ukm-footer.webp"
                 alt="UKM Sport Logo"
                 width={70}
                 height={70}

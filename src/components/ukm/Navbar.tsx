@@ -60,14 +60,14 @@ export function Navbar() {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
             <Image
-              src="/images/logo/uin-gusdur.png"
+              src="/images/logo/uin-gusdur.webp"
               alt="UIN Gusdur Logo"
               width={40}
               height={40}
               className="h-10 w-auto"
             />
             <Image
-              src="/images/logo/ukm-sport.png"
+              src="/images/logo/ukm-sport.webp"
               alt="UKM Sport Logo"
               width={40}
               height={40}

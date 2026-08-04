@@ -5,7 +5,7 @@ const images = [
     className: 'h-64',
   },
   {
-    url: '/images/about/trophy.png',
+    url: '/images/about/trophy.webp',
     alt: 'Lemari piala berisi piala emas dan perak serta medali',
     className: 'h-80 mt-8',
   },

@@ -65,7 +65,7 @@ export function FacilitiesSection() {
             <div className="relative rounded-3xl overflow-hidden aspect-video shadow-2xl">
               <div
                 className="w-full h-full bg-cover bg-center"
-                style={{ backgroundImage: "url('/images/facilities/sport-center.png')" }}
+                style={{ backgroundImage: "url('/images/facilities/sport-center.webp')" }}
                 role="img"
                 aria-label="Sport Center UIN Gusdur"
               />

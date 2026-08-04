@@ -104,7 +104,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className="light" suppressHydrationWarning>
+    <html lang="id" className="light overflow-x-hidden" suppressHydrationWarning>
       <head>
         <link
           rel="stylesheet"
@@ -116,7 +116,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${montserrat.variable} ${inter.variable} antialiased`}
+        className={`${montserrat.variable} ${inter.variable} antialiased overflow-x-hidden`}
       >
         {children}
       </body>

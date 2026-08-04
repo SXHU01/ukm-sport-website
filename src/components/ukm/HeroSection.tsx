@@ -26,7 +26,7 @@ export function HeroSection() {
       className="relative min-h-screen flex items-center pt-24 overflow-hidden"
     >
       {/* Background Layer + Parallax Wrapper */}
-      <div aria-hidden="true" className="absolute inset-0 z-0">
+      <div aria-hidden="true" className="absolute inset-0 z-0 overflow-hidden">
         <div 
           className="absolute inset-0 transition-transform duration-300 ease-out"
           style={{ transform: `translate(${offset.x}px, ${offset.y}px) scale(1.1)` }}
@@ -43,8 +43,8 @@ export function HeroSection() {
         <div className="absolute inset-0 animate-gradient bg-gradient-to-r from-primary/80 via-primary/40 to-black/60" />
 
         {/* Blur Glow Effects */}
-        <div className="absolute left-20 top-32 w-[500px] h-[500px] rounded-full bg-secondary/20 blur-[180px]"></div>
-        <div className="absolute right-0 bottom-0 w-[400px] h-[400px] rounded-full bg-primary/40 blur-[160px]"></div>
+        <div className="absolute left-10 md:left-20 top-32 w-[250px] md:w-[500px] h-[250px] md:h-[500px] rounded-full bg-secondary/20 blur-[120px] md:blur-[180px]"></div>
+        <div className="absolute right-0 bottom-0 w-[200px] md:w-[400px] h-[200px] md:h-[400px] rounded-full bg-primary/40 blur-[100px] md:blur-[160px]"></div>
       </div>
 
       {/* Floating Particles */}

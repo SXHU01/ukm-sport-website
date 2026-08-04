@@ -1,21 +1,21 @@
 const images = [
   {
-    url: '/images/about/meeting.png',
+    url: '/images/about/meeting.webp',
     alt: 'Pertemuan kelompok atlet mahasiswa membahas rencana strategis di fasilitas kampus',
     className: 'h-64',
   },
   {
-    url: '/images/about/trophy.png',
+    url: '/images/about/trophy.webp',
     alt: 'Lemari piala berisi piala emas dan perak serta medali',
     className: 'h-80 mt-8',
   },
   {
-    url: '/images/about/gym.png',
+    url: '/images/about/gym.webp',
     alt: 'Mahasiswa universitas berlatih di gym modern',
     className: 'h-80 -mt-8',
   },
   {
-    url: '/images/aboutSection/Basket.png',
+    url: '/images/aboutSection/Basket.webp',
     alt: 'Tampilan atas lapangan olahraga hijau cerah di kampus',
     className: 'h-64',
   },

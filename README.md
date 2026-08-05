@@ -2,7 +2,7 @@
 
 Website landing page modern, responsif, dan berperforma tinggi untuk Unit Kegiatan Mahasiswa (UKM) Sport.
 
-## ✨ Fitur
+## 1. Fitur
 
 - Desain Modern & Responsif
 - Hero Section Premium
@@ -14,7 +14,7 @@ Website landing page modern, responsif, dan berperforma tinggi untuk Unit Kegiat
 - Ramah SEO
 - Antarmuka yang Mudah Diakses (Accessible UI)
 
-## 🛠 Teknologi yang Digunakan
+## 2. Teknologi yang Digunakan
 
 - Next.js
 - React
@@ -23,19 +23,19 @@ Website landing page modern, responsif, dan berperforma tinggi untuk Unit Kegiat
 - Framer Motion
 - Lucide React
 
-## 📦 Instalasi
+## 3. Instalasi
 
 ```bash
 npm install
 npm run dev
 ```
 
-## 🚀 Menjalankan Build Produksi
+## 4. Menjalankan Build Produksi
 
 ```bash
 npm run build
 ```
 
-## 🤝 Kontribusi
+## 5. Kontribusi
 
 Kontribusi, saran, maupun masukan sangat terbuka untuk membantu pengembangan proyek ini menjadi lebih baik.

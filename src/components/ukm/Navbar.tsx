@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
@@ -15,7 +14,6 @@ const navLinks = [
   { label: 'FACILITIES', href: '#facilities' },
 ];
 
-// Tetap memakai Named Export agar tidak error di page.tsx Anda
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -85,22 +83,23 @@ export function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? 'bg-white/90 backdrop-blur-xl shadow-xl h-20'
-          : 'bg-transparent h-24'
+        scrolled ? 'h-20' : 'h-24'
       }`}
     >
-      <div className="flex justify-between items-center h-full px-margin-mobile md:px-margin-desktop">
-        {/* Left: Logo area */}
-        <button 
+      {/* 1. Pindahkan background & blur ke div terpisah agar backdrop berfungsi di Vercel */}
+      <div
+        className={`absolute inset-0 transition-all duration-500 ${
+          scrolled ? 'bg-white/90 backdrop-blur-xl shadow-xl' : 'bg-transparent'
+        }`}
+      ></div>
+
+      {/* 2. Konten navbar diberi relative agar berada di atas background */}
+      <div className="relative flex justify-between items-center h-full px-margin-mobile md:px-margin-desktop">
+        {/* Left: Logo area (Button untuk scroll ke atas) */}
+        <button
           onClick={() => {
-            // 1. Scroll ke atas dengan halus
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // 2. Hapus hash (#about, #sports, dll) dari URL bar browser
             window.history.replaceState({}, document.title, window.location.pathname);
-            
-            // 3. Reset state active section menjadi 'home'
             setActiveSection('home');
           }}
           className="flex items-center gap-3 cursor-pointer"
@@ -141,7 +140,7 @@ export function Navbar() {
           </div>
         </button>
 
-        {/* Center: Nav links (Desktop) - Diperbaiki ke <ul> dan <li> */}
+        {/* Center: Nav links (Desktop) */}
         <ul className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => {
             const id = link.href.replace('#', '') || 'home';
@@ -178,9 +177,7 @@ export function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             className={`hidden md:block px-6 py-2 rounded-full font-semibold uppercase active:scale-95 transition-all duration-500 ${
-              scrolled
-                ? 'bg-primary text-white'
-                : 'bg-secondary text-white'
+              scrolled ? 'bg-primary text-white' : 'bg-secondary text-white'
             }`}
           >
             JOIN NOW
@@ -212,21 +209,21 @@ export function Navbar() {
 
       {/* Backdrop / Klik di luar untuk menutup */}
       <div
-        className={`fixed inset-0 z-40 md:hidden transition-opacity duration-300 ${
-          mobileOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 z-40 bg-black/40 md:hidden transition-opacity duration-300 ${
+          mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setMobileOpen(false)}
       />
 
       {/* Mobile Drawer dengan Animasi */}
-        <div
-          id="mobile-menu"
-          className={`absolute top-full left-0 right-0 z-50 bg-white shadow-xl md:hidden border-t border-gray-100 transition-all duration-300 ease-out ${
-            mobileOpen
-              ? 'opacity-100 translate-y-0 pointer-events-auto'
-              : 'opacity-0 -translate-y-4 pointer-events-none'
-          }`}
-        >
+      <div
+        id="mobile-menu"
+        className={`absolute top-full left-0 right-0 z-50 bg-white shadow-xl md:hidden border-t border-gray-100 transition-all duration-300 ease-out ${
+          mobileOpen
+            ? 'opacity-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 -translate-y-4 pointer-events-none'
+        }`}
+      >
         <ul className="flex flex-col">
           {navLinks.map((link) => (
             <li key={link.label}>

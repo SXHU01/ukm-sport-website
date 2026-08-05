@@ -93,7 +93,16 @@ export function Navbar() {
       <div className="flex justify-between items-center h-full px-margin-mobile md:px-margin-desktop">
         {/* Left: Logo area */}
         <button 
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => {
+            // 1. Scroll ke atas dengan halus
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // 2. Hapus hash (#about, #sports, dll) dari URL bar browser
+            window.history.replaceState({}, document.title, window.location.pathname);
+            
+            // 3. Reset state active section menjadi 'home'
+            setActiveSection('home');
+          }}
           className="flex items-center gap-3 cursor-pointer"
           aria-label="Kembali ke atas"
         >

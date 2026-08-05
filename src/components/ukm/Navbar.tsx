@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
@@ -14,14 +15,23 @@ const navLinks = [
   { label: 'FACILITIES', href: '#facilities' },
 ];
 
+// Tetap memakai Named Export agar tidak error di page.tsx Anda
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // 1. Scroll Listener dengan requestAnimationFrame (Agar scroll halus)
   useEffect(() => {
+    let ticking = false;
     const onScroll = () => {
-      setScrolled(window.scrollY > 50);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 50);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     onScroll();
@@ -29,6 +39,7 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // 2. IntersectionObserver dengan rootMargin (Agar active menu lebih natural)
   useEffect(() => {
     const sections = document.querySelectorAll('section[id]');
 
@@ -40,11 +51,35 @@ export function Navbar() {
           }
         });
       },
-      { threshold: 0.5 }
+      { rootMargin: '-30% 0px -60% 0px' }
     );
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
+  }, []);
+
+  // 3. Lock Body Scroll saat Drawer terbuka
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
+
+  // 4. Escape Key untuk menutup Drawer
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   return (
@@ -57,7 +92,8 @@ export function Navbar() {
     >
       <div className="flex justify-between items-center h-full px-margin-mobile md:px-margin-desktop">
         {/* Left: Logo area */}
-        <div className="flex items-center gap-3">
+        {/* Left: Logo area */}
+        <Link href="/" className="flex items-center gap-3" aria-label="Kembali ke Beranda">
           <div className="flex items-center gap-2">
             <Image
               src="/images/logo/uin-gusdur.webp"
@@ -91,35 +127,37 @@ export function Navbar() {
               UIN GUSDUR
             </span>
           </div>
-        </div>
+        </Link>
 
-        {/* Center: Nav links (Desktop) */}
-        <div className="hidden md:flex items-center gap-8">
+        {/* Center: Nav links (Desktop) - Diperbaiki ke <ul> dan <li> */}
+        <ul className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => {
             const id = link.href.replace('#', '') || 'home';
 
             return (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`relative px-1 py-2 transition-all duration-300 ${
-                  activeSection === id
-                    ? 'text-secondary font-bold'
-                    : scrolled
-                    ? 'text-gray-700 hover:text-secondary'
-                    : 'text-white hover:text-secondary'
-                }`}
-              >
-                {link.label}
-                <span
-                  className={`absolute left-0 bottom-0 h-[2px] bg-secondary transition-all duration-300 ${
-                    activeSection === id ? 'w-full' : 'w-0'
+              <li key={link.label}>
+                <a
+                  href={link.href}
+                  className={`relative px-1 py-2 transition-all duration-300 group ${
+                    activeSection === id
+                      ? 'text-secondary font-bold'
+                      : scrolled
+                      ? 'text-gray-700 hover:text-secondary'
+                      : 'text-white hover:text-secondary'
                   }`}
-                />
-              </a>
+                >
+                  {link.label}
+                  {/* Hover & Active Underline */}
+                  <span
+                    className={`absolute left-0 bottom-0 h-[2px] bg-secondary transition-all duration-300 ${
+                      activeSection === id ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                  />
+                </a>
+              </li>
             );
           })}
-        </div>
+        </ul>
 
         {/* Right: CTA Button & Hamburger */}
         <div className="flex items-center gap-4">
@@ -136,11 +174,13 @@ export function Navbar() {
             JOIN NOW
           </a>
 
-          {/* Hamburger Menu (Mobile) */}
+          {/* Hamburger Menu (Mobile) + ARIA */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className={`md:hidden z-50 ${scrolled ? 'text-primary' : 'text-white'}`}
             aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
           >
             {mobileOpen ? (
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -158,34 +198,52 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
-      {mobileOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white shadow-xl md:hidden border-t border-gray-100">
+      {/* Backdrop / Klik di luar untuk menutup */}
+      <div
+        className={`fixed inset-0 z-40 md:hidden transition-opacity duration-300 ${
+          mobileOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setMobileOpen(false)}
+      />
+
+      {/* Mobile Drawer dengan Animasi */}
+        <div
+          id="mobile-menu"
+          className={`absolute top-full left-0 right-0 z-50 bg-white shadow-xl md:hidden border-t border-gray-100 transition-all duration-300 ease-out ${
+            mobileOpen
+              ? 'opacity-100 translate-y-0 pointer-events-auto'
+              : 'opacity-0 -translate-y-4 pointer-events-none'
+          }`}
+        >
+        <ul className="flex flex-col">
           {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={() => setMobileOpen(false)}
-              className={`block px-8 py-5 border-b border-gray-100 transition-colors ${
-                activeSection === link.href.replace('#', '')
-                  ? 'text-secondary font-bold bg-gray-50'
-                  : 'text-gray-800 hover:text-secondary'
-              }`}
-            >
-              {link.label}
-            </a>
+            <li key={link.label}>
+              <a
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className={`block px-8 py-5 border-b border-gray-100 transition-colors ${
+                  activeSection === link.href.replace('#', '')
+                    ? 'text-secondary font-bold bg-gray-50'
+                    : 'text-gray-800 hover:text-secondary'
+                }`}
+              >
+                {link.label}
+              </a>
+            </li>
           ))}
-          <a
-            href={GOOGLE_FORMS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setMobileOpen(false)}
-            className="block text-center mx-6 my-5 bg-primary text-white px-6 py-3 rounded-full font-semibold uppercase"
-          >
-            JOIN NOW
-          </a>
-        </div>
-      )}
+          <li>
+            <a
+              href={GOOGLE_FORMS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileOpen(false)}
+              className="block text-center mx-6 my-5 bg-primary text-white px-6 py-3 rounded-full font-semibold uppercase"
+            >
+              JOIN NOW
+            </a>
+          </li>
+        </ul>
+      </div>
     </nav>
   );
 }

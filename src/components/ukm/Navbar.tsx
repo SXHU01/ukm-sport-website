@@ -92,8 +92,11 @@ export function Navbar() {
     >
       <div className="flex justify-between items-center h-full px-margin-mobile md:px-margin-desktop">
         {/* Left: Logo area */}
-        {/* Left: Logo area */}
-        <Link href="/" className="flex items-center gap-3" aria-label="Kembali ke Beranda">
+        <button 
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="flex items-center gap-3 cursor-pointer"
+          aria-label="Kembali ke atas"
+        >
           <div className="flex items-center gap-2">
             <Image
               src="/images/logo/uin-gusdur.webp"
@@ -127,7 +130,7 @@ export function Navbar() {
               UIN GUSDUR
             </span>
           </div>
-        </Link>
+        </button>
 
         {/* Center: Nav links (Desktop) - Diperbaiki ke <ul> dan <li> */}
         <ul className="hidden md:flex items-center gap-8">
